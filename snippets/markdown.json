@@ -1,0 +1,12 @@
+{
+    "vscode_nested_tags_template_default": {
+        "prefix": "vscode_nested_tags_template_default",
+        "body": [
+            "---",
+            "tags: [ $1 ]",
+            "---",
+            "$0"
+        ],
+        "description": "nested tags note default template."
+    }
+}

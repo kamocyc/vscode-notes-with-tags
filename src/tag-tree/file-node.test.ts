@@ -1,12 +1,12 @@
-import { fileNodeSort, FileNode } from "./file-node";
+import { fileNodeSortDefalt, FileNode } from "./file-node";
 
-describe(fileNodeSort.name, () => {
+describe(fileNodeSortDefalt.name, () => {
   test("Sorts in ascending order", () => {
-    const fileNodeA = new FileNode("a", "a", "a", [], "a");
-    const fileNodeB = new FileNode("b", "b", "b", [], "b");
+    const fileNodeA = new FileNode("a", "a", "a", [], "a", new Date, new Date);
+    const fileNodeB = new FileNode("b", "b", "b", [], "b", new Date, new Date);
 
-    expect(fileNodeSort(fileNodeA, fileNodeB)).toEqual(-1);
-    expect(fileNodeSort(fileNodeB, fileNodeA)).toEqual(1);
-    expect(fileNodeSort(fileNodeA, fileNodeA)).toEqual(0);
+    expect(fileNodeSortDefalt(fileNodeA, fileNodeB)).toEqual(-1);
+    expect(fileNodeSortDefalt(fileNodeB, fileNodeA)).toEqual(1);
+    expect(fileNodeSortDefalt(fileNodeA, fileNodeA)).toEqual(0);
   });
 });

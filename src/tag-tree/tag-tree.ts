@@ -1,5 +1,6 @@
 import { TagNode } from "./tag-node";
 import { FileNode } from "./file-node";
+import { statSync } from "fs";
 
 class TagTree {
   public root: TagNode;
@@ -13,13 +14,18 @@ class TagTree {
   /// TODO:(bdietz) - figure out if this method supports adding a file multiple times
   public addFile(filePath: string, tags: string[], displayName: string) {
     // TODO: (bdietz) - should it be the file node's job to write its own key?
+      
     for (const tag of tags) {
+      const fileStat = statSync(filePath);
+      
       const newNode = new FileNode(
         this.createKeyForFile(filePath),
         filePath,
         tag,
         tags,
-        displayName
+        displayName,
+        fileStat.mtime,
+        fileStat.ctime
       );
       this.addFileNode(tag, newNode);
     }
@@ -41,7 +47,7 @@ class TagTree {
     this.fileIndex.delete(fileKey);
   }
 
-  public getTagsForFile(filePath: string) {
+  public getTagsForFile(filePath: string): Set<string> {
     const fileKey = this.createKeyForFile(filePath);
     if (!this.fileIndex.has(fileKey)) {
       return new Set();
@@ -49,7 +55,7 @@ class TagTree {
     const tagNodes = this.fileIndex.get(fileKey)!;
     return tagNodes.reduce((tags, tagNode) => {
       return tags.add(tagNode.tag);
-    }, new Set());
+    }, new Set()) as Set<string>;
   }
 
   public getNode(nodePath: string) {

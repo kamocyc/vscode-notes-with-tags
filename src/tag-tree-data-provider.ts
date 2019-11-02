@@ -2,7 +2,7 @@ import { debounce } from "debounce";
 import * as fs from "fs";
 import * as vscode from "vscode";
 import { setsAreEqual } from "./sets";
-import { FileNode, fileNodeSort } from "./tag-tree/file-node";
+import { FileNode, fileNodeSortDefalt, fileNodeSortModified } from "./tag-tree/file-node";
 import { TagNode, tagNodeSort } from "./tag-tree/tag-node";
 import { TagTree } from "./tag-tree/tag-tree";
 import * as grayMatter from "gray-matter";
@@ -72,6 +72,8 @@ class TagTreeDataProvider
    * @memberof TagTreeDataProvider
    */
   public getChildren(element: TagNode | FileNode) {
+    const fileNodeSort = vscode.workspace.getConfiguration().get('vscode-nested-tags.fileSortOrder') === "name" ? fileNodeSortDefalt : fileNodeSortModified;
+    
     if (element instanceof FileNode) {
       return [];
     } else if (element === undefined) {
@@ -223,7 +225,7 @@ class TagTreeDataProvider
           }
 
           return accumulator;
-        }, { tags: new Set(...yamlTags), filePath });
+        }, { tags: new Set(...yamlTags as Set<any>), filePath }) as IFileInfo;
   }
 
   /**
