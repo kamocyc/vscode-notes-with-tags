@@ -1,0 +1,148 @@
+{
+  "name": "vscode-nested-tags",
+  "displayName": "Nested Tags",
+  "description": "",
+  "version": "0.0.0",
+  "engines": {
+    "vscode": "^1.30.0"
+  },
+  "repository": {
+    "url": "https://github.com/blakedietz/vscode-nested-tags"
+  },
+  "main": "./out/extension.js",
+  "scripts": {
+    "build": "tsc -build tsconfig.json",
+    "build:watch": "tsc -build tsconfig.json -w",
+    "commit": "git-cz",
+    "compile": "tsc -p ./",
+    "docs": "./node_modules/.bin/typedoc --tsconfig tsconfig.json --out ./docs",
+    "lint": "tslint -p tsconfig.json",
+    "postinstall": "node ./node_modules/vscode/bin/install",
+    "prettify": "prettier --write src/**/*{.ts,.md}",
+    "semantic-release": "semantic-release",
+    "test": "jest --passWithNoTests",
+    "test:watch": "jest --watch --passWithNoTests",
+    "vscode:prepublish": "npm run build",
+    "watch": "npm run build:watch"
+  },
+  "devDependencies": {
+    "@semantic-release/changelog": "^3.0.2",
+    "@semantic-release/commit-analyzer": "^6.1.0",
+    "@semantic-release/exec": "^3.3.2",
+    "@semantic-release/git": "^7.0.8",
+    "@semantic-release/github": "^5.2.9",
+    "@semantic-release/npm": "^5.1.4",
+    "@semantic-release/release-notes-generator": "^7.1.4",
+    "@types/debounce": "^1.2.0",
+    "@types/jest": "^23.3.12",
+    "@types/node": "^10.12.18",
+    "@types/recursive-readdir": "2.2.0",
+    "commitizen": "^3.0.5",
+    "cz-conventional-changelog": "^2.1.0",
+    "husky": "^1.3.1",
+    "jest": "^23.6.0",
+    "lint-staged": "^8.1.0",
+    "prettier": "^1.15.3",
+    "semantic-release": "16.0.0-beta.9",
+    "semantic-release-vsce": "2.1.2",
+    "ts-jest": "^23.10.5",
+    "tslint": "^5.12.1",
+    "tslint-config-prettier": "^1.17.0",
+    "typedoc": "^0.14.2",
+    "typescript": "^3.2.2",
+    "vscode": "^1.1.25"
+  },
+  "dependencies": {
+    "debounce": "^1.2.0",
+    "gray-matter": "4.0.2"
+  },
+  "activationEvents": [
+    "onView:tagTreeView"
+  ],
+  "contributes": {
+    "views": {
+      "explorer": [
+        {
+          "id": "tagTreeView",
+          "name": "Tag Tree"
+        }
+      ]
+    },
+    "configuration": {
+      "type": "object",
+      "title": "nested-tags",
+      "properties": { 
+        "vscode-nested-tags.additionalFileTypes": {
+          "type":"array",
+          "default": [],
+          "description": "Add file types that you want nested tags to scan for @nested-tags annotations."
+        } 
+      }
+  }
+  },
+  "icon": "images/icon.png",
+  "galleryBanner": {
+    "color": "#073642",
+    "theme": "dark"
+  },
+  "publisher": "vscode-nested-tags",
+  "config": {
+    "loglevel": "verbose",
+    "commitizen": {
+      "path": "node_modules/cz-conventional-changelog"
+    }
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run lint && npm run build && npm run test && lint-staged",
+      "pre-push": "npm run test"
+    }
+  },
+  "lint-staged": {
+    "*.{ts}": [
+      "prettier --write",
+      "git add"
+    ]
+  },
+  "release": {
+    "plugins": [
+      [
+        "@semantic-release/release-notes-generator",
+        {
+          "preset": "angular",
+          "parserOpts": {
+            "noteKeywords": [
+              "BREAKING CHANGE",
+              "BREAKING CHANGES",
+              "BREAKING"
+            ]
+          },
+          "writerOpts": {
+            "commitsSort": [
+              "subject",
+              "scope"
+            ]
+          }
+        }
+      ],
+      [
+        "@semantic-release/changelog",
+        {
+          "changelogFile": "./CHANGELOG.md"
+        }
+      ],
+      "@semantic-release/github",
+      [
+        "semantic-release-vsce",
+        {
+          "path": "@semantic-release/github",
+          "assets": "vscode-nested-tags.vsix"
+        }
+      ],
+      ["@semantic-release/git", {
+        "assets": ["./CHANGELOG.md"],
+        "message": "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
+      }]
+    ]
+  }
+}
