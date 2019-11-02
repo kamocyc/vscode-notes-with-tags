@@ -4,8 +4,6 @@ View your notes without being limited by your file system's hierarchy.
 
 ## Features
 
-![](./docs/images/nested-tags-intro.gif)
-
 Markdown files with the directive
 
 ```markdown

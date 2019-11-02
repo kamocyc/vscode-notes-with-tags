@@ -1,13 +1,10 @@
 {
-	"name": "vscode-nested-tags",
-	"displayName": "Nested Tags",
+	"name": "vscode-notes-with-tags",
+	"displayName": "Notes with Tags",
 	"description": "",
-	"version": "0.0.0",
+	"version": "0.0.1",
 	"engines": {
 		"vscode": "^1.30.0"
-	},
-	"repository": {
-		"url": "https://github.com/blakedietz/vscode-nested-tags"
 	},
 	"main": "./out/extension.js",
 	"scripts": {
@@ -186,10 +183,5 @@
 				}
 			]
 		]
-	},
-	"__metadata": {
-		"id": "60b02353-0526-49d9-9c35-fdfe1a20ce38",
-		"publisherDisplayName": "vscode-nested-tags",
-		"publisherId": "a7650f5f-d281-45c8-bddd-1feebd0d268b"
 	}
 }
